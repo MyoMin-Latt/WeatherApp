@@ -1,7 +1,8 @@
-// ignore_for_file: avoid_print
+
 
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
+import 'package:http/http.dart' as http;
 
 
 class Home extends StatefulWidget {
@@ -12,6 +13,9 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+
+  String appID = "08296dc9a1f645bd848bfe5248cf2337";
+  String baseUrl = "api.openweathermap.org/data/2.5/weather";
   
   Location location = Location();
   bool? _serviceEnabled;
@@ -38,6 +42,13 @@ if (_permissionGranted == PermissionStatus.denied) {
 _locationData = await location.getLocation();
 print(_locationData!.latitude);
 print(_locationData!.longitude); 
+double lat = _locationData!.latitude!;
+double lon = _locationData!.longitude!;
+
+var response = await http.get(Uri.parse(baseUrl+"?lat=$lat & lon=$lon & appid=$appID"));
+print(response.statusCode);
+print(response.body);
+
   }
 
   @override
@@ -55,3 +66,4 @@ print(_locationData!.longitude);
     );
   }
 }
+
