@@ -47,7 +47,7 @@ double lon = _locationData!.longitude!;
 
 var response = await http.get(Uri.parse(baseUrl+"?lat=$lat & lon=$lon & appid=$appID"));
 print(response.statusCode);
-print(response.body);
+
 
   }
 
