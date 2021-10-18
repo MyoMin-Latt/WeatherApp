@@ -1,8 +1,11 @@
 
 
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
 import 'package:http/http.dart' as http;
+import 'package:weather/ob/wob.dart';
 
 
 class Home extends StatefulWidget {
@@ -13,9 +16,10 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-
+  
+  
   String appID = "08296dc9a1f645bd848bfe5248cf2337";
-  String baseUrl = "api.openweathermap.org/data/2.5/weather";
+  String baseUrl = "http://api.openweathermap.org/data/2.5/weather";
   
   Location location = Location();
   bool? _serviceEnabled;
@@ -45,9 +49,21 @@ print(_locationData!.longitude);
 double lat = _locationData!.latitude!;
 double lon = _locationData!.longitude!;
 
-var response = await http.get(Uri.parse(baseUrl+"?lat=$lat & lon=$lon & appid=$appID"));
-print(response.statusCode);
 
+var response = await http.get(Uri.parse(baseUrl+"?lat=$lat&lon=$lon&appid=$appID"));
+print(response.statusCode);
+// print(response.body);
+
+  if(response.statusCode==200){
+    setState(() {
+      WOb wOb = WOb.fromJson(jsonDecode(response.body));
+      print(wOb.name);
+      
+    });
+  }
+  else{
+    print('Error');
+  }
 
   }
 
@@ -63,6 +79,7 @@ print(response.statusCode);
       appBar: AppBar(
       title: const Text('Weater Forecast'),
       ),
+      
     );
   }
 }
