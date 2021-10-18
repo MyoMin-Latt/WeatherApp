@@ -3,6 +3,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:location/location.dart';
 import 'package:http/http.dart' as http;
 import 'package:weather/ob/wob.dart';
@@ -16,8 +17,12 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+
   
-  
+
+  String wWMain = '';
+  String wWIcon = '';
+  String wName='';
   String appID = "08296dc9a1f645bd848bfe5248cf2337";
   String baseUrl = "http://api.openweathermap.org/data/2.5/weather";
   
@@ -58,6 +63,13 @@ print(response.statusCode);
     setState(() {
       WOb wOb = WOb.fromJson(jsonDecode(response.body));
       print(wOb.name);
+      print(wOb.weather![0].main!);
+      print(wOb.weather![0].icon!);
+      wName = wOb.name!;
+      wWMain = wOb.weather![0].main!;
+      wWIcon = wOb.weather![0].icon!;
+
+
       
     });
   }
@@ -79,7 +91,90 @@ print(response.statusCode);
       appBar: AppBar(
       title: const Text('Weater Forecast'),
       ),
-      
+      body: Stack(
+        children: [
+          Positioned(            
+            child: Container(
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    Colors.blue,
+                    Colors.indigo
+                  ],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight
+                )
+              ),
+            )
+          ),
+
+          Positioned(
+            top: 50,
+            left: 30,
+            child: Text(
+             wName,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 20,
+                fontWeight: FontWeight.bold
+              ),
+            ) 
+          ),
+
+          Positioned(
+            top: 80,
+            left: 30,
+            child: Text(
+              DateFormat('EEEE, d/MMM/y').format(DateTime.now()),
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 20,
+                fontWeight: FontWeight.bold
+              ),
+              )
+          ),
+
+          Positioned(
+            top: 110,
+            left: 30,
+            child: Text(
+              DateFormat().add_jm().format(DateTime.now()),
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 20,
+                fontWeight: FontWeight.bold
+              ),
+              )
+          ),
+
+          Positioned(
+            bottom: 60,
+            right: 30,
+            child: Text(
+              wWMain,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 20,
+                fontWeight: FontWeight.bold
+              ),
+              )
+          ),
+
+          Positioned(
+            bottom: 90,
+            right: 30,
+            child: Text(
+              wWIcon,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 20,
+                fontWeight: FontWeight.bold
+              ),
+              )
+          ),
+
+        ],
+      )
     );
   }
 }
