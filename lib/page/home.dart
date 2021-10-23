@@ -19,7 +19,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
 
   
-
+  WOb? wOb;
   String wWMain = '';
   String wWIcon = '';
   String wName='';
@@ -57,17 +57,17 @@ double lon = _locationData!.longitude!;
 
 var response = await http.get(Uri.parse(baseUrl+"?lat=$lat&lon=$lon&appid=$appID"));
 print(response.statusCode);
-// print(response.body);
+print(response.body);
 
   if(response.statusCode==200){
     setState(() {
-      WOb wOb = WOb.fromJson(jsonDecode(response.body));
-      print(wOb.name);
-      print(wOb.weather![0].main!);
-      print(wOb.weather![0].icon!);
-      wName = wOb.name!;
-      wWMain = wOb.weather![0].main!;
-      wWIcon = wOb.weather![0].icon!;
+      wOb = WOb.fromJson(jsonDecode(response.body));
+      print(wOb!.name);
+      print(wOb!.weather![0].main!);
+      print(wOb!.weather![0].icon!);
+      wName = wOb!.name!;
+      wWMain = wOb!.weather![0].main!;
+      wWIcon = wOb!.weather![0].icon!;
 
 
       
