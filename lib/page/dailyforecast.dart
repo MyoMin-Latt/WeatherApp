@@ -1,6 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:weather/constant/constant.dart';
+import 'package:weather/ob/sdwob.dart';
+import 'package:weather/widget/sdwidget.dart';
 
 // ignore: must_be_immutable
 class DailyForecast extends StatefulWidget {
@@ -14,11 +18,27 @@ class DailyForecast extends StatefulWidget {
 
 class _DailyForecastState extends State<DailyForecast> {
 
+  Sdwob? sdwob;
+  bool isLoading = true;
+
   getData()async{
-    var response = await http.get(Uri.parse(SEVENDAYURL+"?lat=${widget.lat}&lon=${widget.lon}&exclude=current,minutely,hourly,alerts&appid=$appID"));
+    // print(SEVENDAYURL+"?lat=${widget.lat}&lon=${widget.lon}&exclude=current,minutely,hourly,alerts&appid=$appID");
+    var response = await http.get(Uri.parse(SEVENDAYURL+"?lat=${widget.lat}&lon=${widget.lon}&exclude=current,minutely,hourly,alerts&appid=$appID&units=metric"));
     print(response.statusCode);
-    print(response.body);
-    print(response.statusCode);
+    // print(response.body);
+    if(response.statusCode==200){
+      setState(() {
+        isLoading = false;
+        sdwob = Sdwob.fromJson(jsonDecode(response.body));
+        print(sdwob!.lat!.toString());
+      });
+    }
+    else{
+      setState(() {
+        isLoading = false;
+      });
+      print('Error');
+    }
   }
   @override
   void initState() {
@@ -51,8 +71,18 @@ class _DailyForecastState extends State<DailyForecast> {
           ),
 
 
-          Positioned(
-            child: Text(widget.lon.toString())
+          sdwob==null ? const Center(child: CircularProgressIndicator(color: Colors.white,),)
+          :Positioned(
+            top: 10,
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: isLoading? Container() :ListView.builder(
+              itemCount: sdwob!.daily!.length,
+              itemBuilder: (context, index){
+                return Sdwidget(sdwob!.daily![index]);
+              }
+            )
           ),
 
         ],

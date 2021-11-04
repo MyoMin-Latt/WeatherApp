@@ -18,14 +18,19 @@ class _ForCityState extends State<ForCity> {
   WOb? wOb;
   String wIcon='';
   TextEditingController _cityText = TextEditingController();
+  bool isLoading = false;
 
 
   getData(String cityName)async{
+    setState(() {
+      isLoading = true;
+    });
     var response = await http.get(Uri.parse(baseUrl+"?q=$cityName&appid=$appID&units=metric"));
     print(response.statusCode);
     print(response.body);
     if(response.statusCode==200){
       setState(() {
+        isLoading = false;
         wOb = WOb.fromJson(jsonDecode(response.body));
         print(wOb!.name!);
         wIcon = wOb!.weather![0].icon!;
@@ -33,6 +38,9 @@ class _ForCityState extends State<ForCity> {
       });
     }
     else{
+      setState(() {
+        isLoading = false;
+      });
       print("Error");
     }
     
@@ -114,7 +122,10 @@ class _ForCityState extends State<ForCity> {
             top: 70,
             left: 5,
             child: 
-            wOb == null? Container() 
+            isLoading? const Center(
+              child: CircularProgressIndicator(color: Colors.white,),
+            )
+            :wOb == null? Container() 
             :Column(
               children: [
                 Row(

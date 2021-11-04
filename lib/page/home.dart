@@ -104,20 +104,10 @@ print(response.statusCode);
             )
       :Stack(
         children: [
-          Positioned(            
-            child: Container(
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    Colors.blue,
-                    Colors.indigo
-                  ],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight
-                )
-              ),
-            )
+          Positioned.fill(            
+            child: Image.asset('image/day.jpg', fit: BoxFit.cover)
           ),
+
 
           Positioned(
             top: 50,
