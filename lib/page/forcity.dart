@@ -19,6 +19,7 @@ class _ForCityState extends State<ForCity> {
   String wIcon='';
   TextEditingController _cityText = TextEditingController();
   bool isLoading = false;
+  String? error;
 
 
   getData(String cityName)async{
@@ -30,6 +31,7 @@ class _ForCityState extends State<ForCity> {
     print(response.body);
     if(response.statusCode==200){
       setState(() {
+        error = null;
         isLoading = false;
         wOb = WOb.fromJson(jsonDecode(response.body));
         print(wOb!.name!);
@@ -40,6 +42,7 @@ class _ForCityState extends State<ForCity> {
     else{
       setState(() {
         isLoading = false;
+        error = "Please check city name";
       });
       print("Error");
     }
@@ -124,6 +127,11 @@ class _ForCityState extends State<ForCity> {
             child: 
             isLoading? const Center(
               child: CircularProgressIndicator(color: Colors.white,),
+            ):
+            error!=null? 
+            Padding(
+              padding: const EdgeInsets.only(top: 20, left: 10),
+              child: Text(error!, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),),
             )
             :wOb == null? Container() 
             :Column(

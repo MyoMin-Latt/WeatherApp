@@ -84,6 +84,13 @@ print(response.statusCode);
 
   @override
   Widget build(BuildContext context) {
+
+    int hour = DateTime.now().hour;
+    bool isNight = false;
+    if(hour>=6 && hour<=18){
+      isNight = true;
+    }
+
     return Scaffold(
       appBar: AppBar(
       title: const Text('Weater Forecast'),
@@ -105,7 +112,7 @@ print(response.statusCode);
       :Stack(
         children: [
           Positioned.fill(            
-            child: Image.asset('image/day.jpg', fit: BoxFit.cover)
+            child: Image.asset(isNight? 'image/day1.png':'image/night1.png', fit: BoxFit.cover)
           ),
 
 
@@ -194,12 +201,22 @@ print(response.statusCode);
           Positioned(
             bottom: 120,
             right: 30,
-            child: Text(
-             wOb == null ? '' : wOb!.main!.temp.toString()+ " C",
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 20,
-                fontWeight: FontWeight.bold
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.black.withOpacity(0.7),
+                borderRadius: BorderRadius.circular(10)
+              ),
+              
+              child: Padding(
+                padding: const EdgeInsets.all(10),
+                child: Text(
+                 wOb == null ? '' : wOb!.main!.temp.toString()+ " C",
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold
+                  ),
+                ),
               ),
             ) 
           ),
