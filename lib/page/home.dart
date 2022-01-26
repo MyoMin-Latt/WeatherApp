@@ -225,6 +225,7 @@ print(response.statusCode);
             top: 38,
             right: 30,
             child: IconButton(
+              
               color: Colors.white,
               onPressed: (){
                 Navigator.of(context).push(
@@ -233,7 +234,7 @@ print(response.statusCode);
                   })
                 );
               }, 
-              icon: const Icon(Icons.location_city_sharp)
+              icon: const Icon(Icons.search)
             )
           ),
 

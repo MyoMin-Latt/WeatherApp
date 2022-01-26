@@ -90,16 +90,19 @@ class _ForCityState extends State<ForCity> {
                       children: [
                         Expanded(
                           child: TextField(
+                            showCursor: true,
+                            cursorWidth: 3,
+                            cursorColor: Colors.white,
                             style: const TextStyle(
                               fontWeight: FontWeight.bold,
-                              fontSize: 22,
+                              fontSize: 15,
                               color: Colors.white
                             ),
                             controller: _cityText,
-                            decoration: const InputDecoration(
+                            decoration: InputDecoration(
+                              enabledBorder: OutlineInputBorder(borderSide: BorderSide(width: 1, color: Colors.white)),
                               labelText: 'Search By City',
                               labelStyle: TextStyle(
-                                fontWeight: FontWeight.bold,
                                 color: Colors.white,
                               )
                             ),
@@ -178,11 +181,7 @@ class _ForCityState extends State<ForCity> {
               ],
             )
           ),
-            
 
-            
-
-            
           ],
         ),
       ),

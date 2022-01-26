@@ -25,7 +25,7 @@ class Daily {
   int? sunset;
   int? moonrise;
   int? moonset;
-  double? moonPhase;
+  num? moonPhase;
   Temp? temp;
   FeelsLike? feelsLike;
   int? pressure;
@@ -33,11 +33,11 @@ class Daily {
   double? dewPoint;
   double? windSpeed;
   int? windDeg;
-  double? windGust;
+  num? windGust;
   List<Weather>? weather;
   int? clouds;
-  double? pop;
-  double? uvi;
+  num? pop;
+  num? uvi;
   double? rain;
 
   Daily(
